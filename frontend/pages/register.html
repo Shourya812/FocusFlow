@@ -1,0 +1,174 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Register | FocusFlow</title>
+
+    <link rel="stylesheet" href="../css/style.css">
+
+    <link rel="stylesheet" href="../css/register.css">
+
+</head>
+
+
+<body>
+
+    <main class="auth-page">
+
+        <div class="auth-card">
+
+            <!-- Brand -->
+
+            <div class="auth-brand">
+
+                <div class="auth-brand-icon">
+                    ✓
+                </div>
+
+                <span>FocusFlow</span>
+
+            </div>
+
+
+            <!-- Heading -->
+
+            <div class="auth-heading">
+
+                <p class="auth-eyebrow">
+                    GET STARTED
+                </p>
+
+                <h1>
+                    Create your account.
+                </h1>
+
+                <p>
+                    Start organizing your work and staying productive.
+                </p>
+
+            </div>
+
+
+            <!-- Register Form -->
+
+            <form id="register-form">
+
+                <div class="form-group">
+
+                    <label for="name">
+                        Name
+                    </label>
+
+                    <input
+                        type="text"
+                        id="name"
+                        name="name"
+                        placeholder="Enter your name"
+                        autocomplete="name"
+                        required
+                    >
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="email">
+                        Email
+                    </label>
+
+                    <input
+                        type="email"
+                        id="email"
+                        name="email"
+                        placeholder="Enter your email"
+                        autocomplete="email"
+                        required
+                    >
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="password">
+                        Password
+                    </label>
+
+                    <input
+                        type="password"
+                        id="password"
+                        name="password"
+                        placeholder="Create a password"
+                        autocomplete="new-password"
+                        required
+                    >
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="confirm-password">
+                        Confirm Password
+                    </label>
+
+                    <input
+                        type="password"
+                        id="confirm-password"
+                        name="confirm-password"
+                        placeholder="Enter your password again"
+                        autocomplete="new-password"
+                        required
+                    >
+
+                </div>
+
+
+                <button
+                    type="submit"
+                    class="login-btn"
+                    id="register-btn"
+                >
+                    Create Account
+                </button>
+
+            </form>
+
+
+            <!-- Register message -->
+
+            <p id="register-message" class="auth-message"></p>
+
+
+            <!-- Login link -->
+
+            <div class="auth-footer">
+
+                <span>
+                    Already have an account?
+                </span>
+
+                <a href="login.html">
+                    Log in
+                </a>
+
+            </div>
+
+        </div>
+
+        
+
+    </main>
+
+    <script src="../js/register.js"></script>
+
+</body>
+
+</html>

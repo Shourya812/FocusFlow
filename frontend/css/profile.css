@@ -1,0 +1,692 @@
+/* =========================================================
+   FOCUSFLOW PROFILE & ANALYTICS
+   Matches the existing FocusFlow dashboard visual system
+   ========================================================= */
+
+
+/* =========================================================
+   1. VARIABLES
+   ========================================================= */
+
+:root {
+
+    --bg: #f7f9fc;
+    --white: #ffffff;
+
+    --heading: #14213d;
+    --text: #596579;
+    --muted: #8792a3;
+
+    --primary: #6366f1;
+    --primary-dark: #4f46e5;
+    --primary-light: #eef2ff;
+
+    --success: #22c55e;
+    --success-light: #e7faf7;
+
+    --warning: #b45309;
+    --warning-light: #fff6df;
+
+    --danger: #ef4444;
+
+    --border: #e1e7ef;
+
+    --shadow:
+        0 20px 55px rgba(20, 33, 61, 0.09);
+
+    --small-shadow:
+        0 10px 30px rgba(20, 33, 61, 0.07);
+
+    --radius: 22px;
+}
+
+
+/* =========================================================
+   2. RESET
+   ========================================================= */
+
+* {
+    box-sizing: border-box;
+}
+
+
+html {
+    scroll-behavior: smooth;
+}
+
+
+body {
+
+    min-height: 100vh;
+
+    margin: 0;
+
+    color: var(--heading);
+
+    background:
+        radial-gradient(
+            circle at 85% 5%,
+            rgba(99, 102, 241, 0.10),
+            transparent 28%
+        ),
+        radial-gradient(
+            circle at 5% 35%,
+            rgba(99, 102, 241, 0.05),
+            transparent 25%
+        ),
+        var(--bg);
+
+    font-family:
+        Inter,
+        ui-sans-serif,
+        system-ui,
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        sans-serif;
+
+    -webkit-font-smoothing: antialiased;
+}
+
+
+button {
+    font-family: inherit;
+    cursor: pointer;
+}
+
+
+/* =========================================================
+   3. MAIN CONTAINER
+   ========================================================= */
+
+.profile-container {
+
+    width: min(1120px, calc(100% - 40px));
+
+    margin: 0 auto;
+
+    padding-top: 55px;
+    padding-bottom: 90px;
+}
+
+
+/* =========================================================
+   4. PAGE HEADER
+   ========================================================= */
+
+.profile-header {
+
+    display: flex;
+
+    align-items: flex-end;
+
+    justify-content: space-between;
+
+    gap: 25px;
+
+    margin-bottom: 35px;
+}
+
+
+.eyebrow {
+
+    display: inline-block;
+
+    margin-bottom: 10px;
+
+    color: var(--primary);
+
+    font-size: 11px;
+
+    font-weight: 800;
+
+    letter-spacing: 2px;
+}
+
+
+.profile-header h1 {
+
+    margin: 0 0 10px;
+
+    color: var(--heading);
+
+    font-size: 42px;
+
+    line-height: 1.05;
+
+    letter-spacing: -2px;
+
+    font-weight: 800;
+}
+
+
+.subtitle {
+
+    margin: 0;
+
+    color: var(--muted);
+
+    font-size: 14px;
+
+    line-height: 1.6;
+}
+
+
+/* =========================================================
+   5. DASHBOARD BUTTON
+   ========================================================= */
+
+.secondary-btn {
+
+    min-height: 48px;
+
+    display: inline-flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    padding: 0 20px;
+
+    border: 1px solid var(--border);
+
+    border-radius: 12px;
+
+    color: var(--heading);
+
+    background: var(--white);
+
+    font-size: 13px;
+
+    font-weight: 700;
+
+    box-shadow:
+        0 8px 22px rgba(20, 33, 61, 0.05);
+
+    transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease,
+        border-color 0.2s ease;
+}
+
+
+.secondary-btn:hover {
+
+    transform: translateY(-2px);
+
+    border-color: #d3dbea;
+
+    box-shadow:
+        0 13px 28px rgba(20, 33, 61, 0.09);
+}
+
+
+.secondary-btn:active {
+
+    transform: scale(0.97);
+}
+
+
+/* =========================================================
+   6. COMMON CARD
+   ========================================================= */
+
+.profile-card {
+
+    border: 1px solid var(--border);
+
+    border-radius: var(--radius);
+
+    background: var(--white);
+
+    box-shadow: var(--small-shadow);
+}
+
+
+/* =========================================================
+   7. USER PROFILE CARD
+   ========================================================= */
+
+.user-card {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 18px;
+
+    padding: 25px;
+
+    margin-bottom: 50px;
+
+    transition:
+        transform 0.25s ease,
+        box-shadow 0.25s ease;
+}
+
+
+.user-card:hover {
+
+    transform: translateY(-2px);
+
+    box-shadow: var(--shadow);
+}
+
+
+.avatar {
+
+    width: 65px;
+    height: 65px;
+
+    flex-shrink: 0;
+
+    display: grid;
+
+    place-items: center;
+
+    border-radius: 18px;
+
+    color: var(--primary);
+
+    background: var(--primary-light);
+
+    font-size: 24px;
+
+    font-weight: 800;
+}
+
+
+.user-info h2 {
+
+    margin: 0 0 5px;
+
+    color: var(--heading);
+
+    font-size: 20px;
+
+    font-weight: 800;
+}
+
+
+.user-info p {
+
+    margin: 0;
+
+    color: var(--muted);
+
+    font-size: 13px;
+}
+
+
+/* =========================================================
+   8. SECTION HEADINGS
+   ========================================================= */
+
+.analytics-section {
+
+    margin-bottom: 50px;
+}
+
+
+.section-heading {
+
+    margin-bottom: 22px;
+}
+
+
+.section-heading h2 {
+
+    margin: 0 0 7px;
+
+    color: var(--heading);
+
+    font-size: 28px;
+
+    line-height: 1.1;
+
+    letter-spacing: -1px;
+
+    font-weight: 800;
+}
+
+
+.section-heading p {
+
+    margin: 0;
+
+    color: var(--muted);
+
+    font-size: 13px;
+}
+
+
+/* =========================================================
+   9. STATISTICS GRID
+   ========================================================= */
+
+.stats-grid {
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(5, 1fr);
+
+    gap: 13px;
+}
+
+
+.stat-card {
+
+    min-height: 145px;
+
+    display: flex;
+
+    flex-direction: column;
+
+    justify-content: space-between;
+
+    padding: 22px;
+
+    border: 1px solid var(--border);
+
+    border-radius: 17px;
+
+    background: var(--white);
+
+    box-shadow:
+        0 8px 25px rgba(20, 33, 61, 0.04);
+
+    transition:
+        transform 0.25s ease,
+        box-shadow 0.25s ease,
+        border-color 0.25s ease;
+}
+
+
+.stat-card:hover {
+
+    transform: translateY(-4px);
+
+    border-color: #d7deea;
+
+    box-shadow:
+        0 15px 32px rgba(20, 33, 61, 0.09);
+}
+
+
+.stat-card p {
+
+    margin: 0;
+
+    color: var(--muted);
+
+    font-size: 11px;
+
+    font-weight: 750;
+
+    letter-spacing: 0.4px;
+}
+
+
+.stat-card h3 {
+
+    margin: 14px 0 0;
+
+    color: var(--heading);
+
+    font-size: 35px;
+
+    line-height: 1;
+
+    letter-spacing: -1.5px;
+}
+
+
+.stat-card:nth-child(2) h3 {
+
+    color: var(--success);
+}
+
+
+.stat-card:nth-child(3) h3 {
+
+    color: var(--primary);
+}
+
+
+.stat-card:nth-child(4) h3 {
+
+    color: var(--danger);
+}
+
+
+.completion-card h3 {
+
+    color: var(--primary);
+}
+
+
+/* =========================================================
+   10. ACTIVITY CARD
+   ========================================================= */
+
+.activity-card {
+
+    padding: 27px;
+
+    margin-bottom: 25px;
+}
+
+
+/* =========================================================
+   11. ACTIVITY LIST
+   ========================================================= */
+
+.activity-container {
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 10px;
+
+    min-height: 120px;
+
+    margin-top: 10px;
+}
+
+
+.activity-row {
+
+    min-height: 55px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    padding: 0 17px;
+
+    border: 1px solid var(--border);
+
+    border-radius: 13px;
+
+    background: #fbfcfe;
+
+    transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease,
+        border-color 0.2s ease;
+}
+
+
+.activity-row:hover {
+
+    transform: translateX(4px);
+
+    border-color: #d7deea;
+
+    box-shadow:
+        0 8px 20px rgba(20, 33, 61, 0.06);
+}
+
+
+.activity-row span {
+
+    color: var(--text);
+
+    font-size: 13px;
+
+    font-weight: 600;
+}
+
+
+.activity-row strong {
+
+    min-width: 35px;
+
+    text-align: center;
+
+    padding: 6px 10px;
+
+    border-radius: 9px;
+
+    color: var(--primary);
+
+    background: var(--primary-light);
+
+    font-size: 12px;
+}
+
+
+.loading-text {
+
+    margin: 0;
+
+    color: var(--muted);
+
+    font-size: 13px;
+}
+
+
+/* =========================================================
+   12. ERROR
+   ========================================================= */
+
+.error-message {
+
+    margin: 20px 0 0;
+
+    color: var(--danger);
+
+    font-size: 13px;
+
+    text-align: center;
+}
+
+
+/* =========================================================
+   13. MOBILE
+   ========================================================= */
+
+@media (max-width: 950px) {
+
+    .stats-grid {
+
+        grid-template-columns:
+            repeat(3, 1fr);
+    }
+}
+
+
+@media (max-width: 700px) {
+
+    .profile-container {
+
+        width: calc(100% - 30px);
+
+        padding-top: 40px;
+    }
+
+
+    .profile-header {
+
+        align-items: flex-start;
+
+        flex-direction: column;
+    }
+
+
+    .profile-header h1 {
+
+        font-size: 36px;
+    }
+
+
+    .stats-grid {
+
+        grid-template-columns:
+            repeat(2, 1fr);
+    }
+}
+
+
+@media (max-width: 480px) {
+
+    .profile-container {
+
+        width: calc(100% - 24px);
+
+        padding-top: 30px;
+    }
+
+
+    .profile-header h1 {
+
+        font-size: 31px;
+
+        letter-spacing: -1.5px;
+    }
+
+
+    .subtitle {
+
+        font-size: 13px;
+    }
+
+
+    .user-card {
+
+        padding: 20px;
+    }
+
+
+    .avatar {
+
+        width: 55px;
+        height: 55px;
+
+        border-radius: 15px;
+
+        font-size: 20px;
+    }
+
+
+    .stats-grid {
+
+        grid-template-columns: 1fr;
+    }
+
+
+    .stat-card {
+
+        min-height: 120px;
+    }
+
+
+    .activity-card {
+
+        padding: 20px;
+    }
+}
