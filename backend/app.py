@@ -10,10 +10,31 @@ import os
 load_dotenv()
 app = Flask(__name__)
 
-CORS(app, supports_credentials=True)
+secret_key = os.getenv("FLASK_SECRET_KEY")
 
-app.secret_key = os.getenv("FLASK_SECRET_KEY")
+if not secret_key:
+    raise RuntimeError("FLASK_SECRET_KEY is not set.")
 
+app.secret_key = secret_key
+
+frontend_url = os.getenv("FRONTEND_URL")
+
+if frontend_url:
+    CORS(
+        app,
+        origins=[frontend_url],
+        supports_credentials=True
+    )
+else:
+    CORS(app, supports_credentials=True)
+
+is_production = os.getenv("FLASK_ENV") == "production"
+
+app.config.update(
+    SESSION_COOKIE_HTTPONLY=True,
+    SESSION_COOKIE_SAMESITE="None" if is_production else "Lax",
+    SESSION_COOKIE_SECURE=is_production
+)
 
 @app.route("/")
 def home():
