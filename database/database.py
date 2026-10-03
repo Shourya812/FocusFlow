@@ -5,19 +5,26 @@ DATABASE_PATH = "database/todo.db"
 
 
 def create_tables():
+
     connection = sqlite3.connect(DATABASE_PATH)
+
     cursor = connection.cursor()
 
+
+    # Users table
     cursor.execute("""
     CREATE TABLE IF NOT EXISTS users (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         name TEXT NOT NULL,
         email TEXT NOT NULL UNIQUE,
         password_hash TEXT NOT NULL,
+        role TEXT NOT NULL DEFAULT 'user',
         created_at TEXT NOT NULL
     )
     """)
 
+
+    # Tasks table
     cursor.execute("""
     CREATE TABLE IF NOT EXISTS tasks (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -33,6 +40,8 @@ def create_tables():
     )
     """)
 
+
+    # Subtasks table
     cursor.execute("""
     CREATE TABLE IF NOT EXISTS subtasks (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -44,7 +53,9 @@ def create_tables():
     )
     """)
 
+
     connection.commit()
+
     connection.close()
 
     print("Database tables created successfully!")

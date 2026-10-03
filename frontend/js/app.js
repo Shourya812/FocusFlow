@@ -454,73 +454,50 @@ function displayTasks(tasks) {
         task => task.status === "completed"
     ).length;
 
-    const pendingCount =
-        tasks.length - completedCount;
+    const pendingCount = tasks.length - completedCount;
 
-    const totalElement =
-        document.getElementById("total-tasks");
-
-    const completedElement =
-        document.getElementById("completed-tasks");
-
-    const pendingElement =
-        document.getElementById("pending-tasks");
+    const totalElement = document.getElementById("total-tasks");
+    const completedElement = document.getElementById("completed-tasks");
+    const pendingElement = document.getElementById("pending-tasks");
 
     if (totalElement) {
         totalElement.textContent = tasks.length;
     }
 
     if (completedElement) {
-        completedElement.textContent =
-            completedCount;
+        completedElement.textContent = completedCount;
     }
 
     if (pendingElement) {
-        pendingElement.textContent =
-            pendingCount;
+        pendingElement.textContent = pendingCount;
     }
 
     taskList.replaceChildren();
 
-    /*
-     * Empty state.
-     */
+    // Show empty state
     if (tasks.length === 0) {
-        const emptyState =
-            document.createElement("div");
-
+        const emptyState = document.createElement("div");
         emptyState.className = "empty-state";
 
-        const icon =
-            document.createElement("div");
-
+        const icon = document.createElement("div");
         icon.className = "empty-icon";
         icon.textContent = "✓";
 
-        const eyebrow =
-            document.createElement("p");
-
+        const eyebrow = document.createElement("p");
         eyebrow.className = "empty-eyebrow";
         eyebrow.textContent = "READY WHEN YOU ARE";
 
-        const heading =
-            document.createElement("h4");
-
+        const heading = document.createElement("h4");
         heading.textContent = "No tasks yet";
 
-        const message =
-            document.createElement("p");
-
+        const message = document.createElement("p");
         message.textContent =
             "Add your first task and start making progress.";
 
-        const button =
-            document.createElement("button");
-
+        const button = document.createElement("button");
         button.className = "empty-action";
         button.type = "button";
-        button.textContent =
-            "Create your first task →";
+        button.textContent = "Create your first task →";
 
         button.addEventListener(
             "click",
@@ -540,98 +517,100 @@ function displayTasks(tasks) {
         return;
     }
 
+    // Separate tasks by STATUS, not deadline
+    const pendingTasks = tasks.filter(
+        task => task.status !== "completed"
+    );
 
-    /*
-     * Group tasks by deadline.
-     */
-    const groupedTasks =
-        groupTasksByDate(tasks);
+    const completedTasks = tasks.filter(
+        task => task.status === "completed"
+    );
 
-    const groupKeys =
-        sortGroupKeys(
-            Object.keys(groupedTasks)
+    // Sort pending tasks by deadline
+    // Tasks without deadlines go to the bottom
+    pendingTasks.sort((a, b) => {
+        const dateA = parseTaskDate(a.due_at);
+        const dateB = parseTaskDate(b.due_at);
+
+        if (!dateA && !dateB) return 0;
+        if (!dateA) return 1;
+        if (!dateB) return -1;
+
+        return dateA - dateB;
+    });
+
+    // Sort completed tasks by completion time
+    // Most recently completed appears first
+    completedTasks.sort((a, b) => {
+        const dateA = parseTaskDate(a.completed_at);
+        const dateB = parseTaskDate(b.completed_at);
+
+        if (!dateA && !dateB) return 0;
+        if (!dateA) return 1;
+        if (!dateB) return -1;
+
+        return dateB - dateA;
+    });
+
+    // Pending section
+    if (pendingTasks.length > 0) {
+        const pendingHeading = document.createElement("div");
+        pendingHeading.className = "task-date-group";
+
+        const pendingTitle = document.createElement("h4");
+        pendingTitle.className = "task-date-title";
+        pendingTitle.textContent = "Pending";
+
+        const pendingCountText = document.createElement("span");
+        pendingCountText.className = "task-date-count";
+        pendingCountText.textContent =
+            `${pendingTasks.length} ${
+                pendingTasks.length === 1 ? "task" : "tasks"
+            }`;
+
+        pendingHeading.append(
+            pendingTitle,
+            pendingCountText
         );
 
+        taskList.appendChild(pendingHeading);
 
-    /*
-     * Create each date section.
-     */
-    groupKeys.forEach(dateKey => {
-        const group =
-            document.createElement("section");
-
-        group.className =
-            "task-date-section";
-
-
-        /*
-         * Date heading.
-         */
-        group.appendChild(
-            createDateGroupHeading(
-                dateKey,
-                groupedTasks[dateKey].length
-            )
-        );
-
-
-        /*
-         * Container for cards.
-         */
-        const cardsContainer =
-            document.createElement("div");
-
-        cardsContainer.className =
-            "task-group-list";
-
-
-        /*
-         * Sort tasks inside a group.
-         *
-         * Completed tasks go after pending tasks.
-         */
-        const groupTasks =
-            [...groupedTasks[dateKey]]
-                .sort((a, b) => {
-                    if (
-                        a.status === "completed" &&
-                        b.status !== "completed"
-                    ) {
-                        return 1;
-                    }
-
-                    if (
-                        a.status !== "completed" &&
-                        b.status === "completed"
-                    ) {
-                        return -1;
-                    }
-
-                    if (
-                        a.due_at &&
-                        b.due_at
-                    ) {
-                        return (
-                            parseTaskDate(a.due_at) -
-                            parseTaskDate(b.due_at)
-                        );
-                    }
-
-                    return 0;
-                });
-
-
-        groupTasks.forEach(task => {
-            cardsContainer.appendChild(
+        pendingTasks.forEach(task => {
+            taskList.appendChild(
                 createTaskCard(task)
             );
         });
+    }
 
+    // Completed section
+    if (completedTasks.length > 0) {
+        const completedHeading = document.createElement("div");
+        completedHeading.className = "task-date-group";
 
-        group.appendChild(cardsContainer);
+        const completedTitle = document.createElement("h4");
+        completedTitle.className = "task-date-title";
+        completedTitle.textContent = "Completed";
 
-        taskList.appendChild(group);
-    });
+        const completedCountText = document.createElement("span");
+        completedCountText.className = "task-date-count";
+        completedCountText.textContent =
+            `${completedTasks.length} ${
+                completedTasks.length === 1 ? "task" : "tasks"
+            }`;
+
+        completedHeading.append(
+            completedTitle,
+            completedCountText
+        );
+
+        taskList.appendChild(completedHeading);
+
+        completedTasks.forEach(task => {
+            taskList.appendChild(
+                createTaskCard(task)
+            );
+        });
+    }
 }
 
 
@@ -748,6 +727,28 @@ function createTaskCard(task) {
         );
     }
 
+    // Show when the task was completed
+    if (isCompleted && task.completed_at) {
+        const completedTime =
+            parseTaskDate(task.completed_at);
+
+        if (completedTime) {
+            const completedText =
+                document.createElement("p");
+
+            completedText.className =
+                "task-completed-time";
+
+            completedText.textContent =
+                `✓ Completed on ${formatGroupDate(
+                    getDateKey(completedTime)
+                )}, ${formatTime(completedTime)}`;
+
+            info.appendChild(
+                completedText
+            );
+        }
+    }
 
     left.append(
         checkbox,

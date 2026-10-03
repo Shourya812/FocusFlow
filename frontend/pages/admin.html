@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>FocusFlow - Admin Dashboard</title>
+
+<link rel="stylesheet" href="../css/admin.css">
+
+
+</head>
+
+<body>
+
+
+<main class="admin-container">
+
+    <!-- Header -->
+    <header class="admin-header">
+
+        <div>
+            <p class="eyebrow">FOCUSFLOW</p>
+
+            <h1>Admin Dashboard</h1>
+
+            <p class="subtitle">
+                Monitor users and overall application activity.
+            </p>
+        </div>
+
+        <button id="dashboard-btn" class="secondary-btn">
+            Dashboard
+        </button>
+
+    </header>
+
+
+    <!-- Statistics -->
+    <section class="analytics-section">
+
+        <div class="section-heading">
+            <h2>Application Overview</h2>
+
+            <p>
+                A quick look at FocusFlow usage.
+            </p>
+        </div>
+
+
+        <div class="stats-grid">
+
+            <!-- Total Users -->
+            <div class="stat-card">
+
+                <p>Total Users</p>
+
+                <h3 id="total-users">0</h3>
+
+            </div>
+
+
+            <!-- Total Tasks -->
+            <div class="stat-card">
+
+                <p>Total Tasks</p>
+
+                <h3 id="total-tasks">0</h3>
+
+            </div>
+
+
+            <!-- Completed Tasks -->
+            <div class="stat-card">
+
+                <p>Completed Tasks</p>
+
+                <h3 id="completed-tasks">0</h3>
+
+            </div>
+
+
+            <!-- Pending Tasks -->
+            <div class="stat-card">
+
+                <p>Pending Tasks</p>
+
+                <h3 id="pending-tasks">0</h3>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- Recent Users -->
+    <section class="users-section">
+
+        <div class="section-heading">
+
+            <h2>Recent Users</h2>
+
+            <p>
+                The latest users who registered on FocusFlow.
+            </p>
+
+        </div>
+
+
+        <div id="users-container" class="users-container">
+
+            <p class="loading-text">
+                Loading users...
+            </p>
+
+        </div>
+
+    </section>
+
+
+    <!-- Error Message -->
+    <p id="error-message" class="error-message"></p>
+
+</main>
+
+
+<script src="../js/admin.js"></script>
+
+
+</body>
+
+</html>

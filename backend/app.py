@@ -1,15 +1,18 @@
 from flask import Flask, jsonify, request, session
 from flask_cors import CORS
+from dotenv import load_dotenv
 from db import get_db_connection
-from auth import login_required
+from auth import login_required, admin_required
 from werkzeug.security import generate_password_hash, check_password_hash
 from datetime import datetime
+import os
 
-
+load_dotenv()
 app = Flask(__name__)
+
 CORS(app, supports_credentials=True)
 
-app.secret_key = "your-development-secret-key"
+app.secret_key = os.getenv("FLASK_SECRET_KEY")
 
 
 @app.route("/")
@@ -29,7 +32,7 @@ def get_current_user():
 
     try:
         user = connection.execute(
-            "SELECT id, name, email FROM users WHERE id = ?",
+            "SELECT id, name, email, role FROM users WHERE id = ?",
             (user_id,)
         ).fetchone()
 
@@ -51,7 +54,8 @@ def get_current_user():
     return jsonify({
         "id": user["id"],
         "name": user["name"],
-        "email": user["email"]
+        "email": user["email"],
+        "role": user["role"]
     })
 
 
@@ -608,6 +612,74 @@ def get_analytics():
                 "completed": activity["completed"]
             }
             for activity in daily_activity
+        ]
+    })
+
+# Admin dashboard statistics
+@app.route("/api/admin/stats", methods=["GET"])
+@admin_required
+def get_admin_stats():
+
+    connection = get_db_connection()
+
+    try:
+        # Total registered users
+        total_users = connection.execute("""
+            SELECT COUNT(*) AS count
+            FROM users
+        """).fetchone()
+
+        # Total tasks
+        total_tasks = connection.execute("""
+            SELECT COUNT(*) AS count
+            FROM tasks
+        """).fetchone()
+
+        # Completed tasks
+        completed_tasks = connection.execute("""
+            SELECT COUNT(*) AS count
+            FROM tasks
+            WHERE status = 'completed'
+        """).fetchone()
+
+        # Pending tasks
+        pending_tasks = connection.execute("""
+            SELECT COUNT(*) AS count
+            FROM tasks
+            WHERE status = 'pending'
+        """).fetchone()
+
+        # Recent registered users
+        recent_users = connection.execute("""
+            SELECT id, name, email, created_at
+            FROM users
+            ORDER BY id DESC
+            LIMIT 5
+        """).fetchall()
+
+    except Exception as error:
+        connection.rollback()
+
+        return jsonify({
+            "error": "Failed to fetch admin statistics"
+        }), 500
+
+    finally:
+        connection.close()
+
+    return jsonify({
+        "total_users": total_users["count"] or 0,
+        "total_tasks": total_tasks["count"] or 0,
+        "completed_tasks": completed_tasks["count"] or 0,
+        "pending_tasks": pending_tasks["count"] or 0,
+        "recent_users": [
+            {
+                "id": user["id"],
+                "name": user["name"],
+                "email": user["email"],
+                "created_at": user["created_at"]
+            }
+            for user in recent_users
         ]
     })
 
